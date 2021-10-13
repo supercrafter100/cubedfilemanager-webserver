@@ -1,6 +1,6 @@
 # Cubedfilemanager-webserver
 
-This is the webserver that is used by cubedfilemanager to handle sessions for livesync
+This is the webserver that is used by [cubedfilemanager](https://www.npmjs.com/package/cubedfilemanager) to handle sessions for livesync
 
 ## Installations
 
