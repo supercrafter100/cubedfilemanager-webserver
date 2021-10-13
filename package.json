@@ -1,0 +1,27 @@
+{
+  "name": "cubedfilemanager-webserver",
+  "version": "1.0.0",
+  "description": "A webserver that will manage cubedfilemanager sessions",
+  "main": "dist/index.js",
+  "author": "Supercrafter100",
+  "license": "MIT",
+  "scripts": {
+    "start": "node dist/index.js",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.10",
+    "cubedfilemanager": "^3.0.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "node-fetch": "2",
+    "socket.io": "^4.2.0"
+  },
+  "devDependencies": {
+    "@types/cheerio": "^0.22.30",
+    "@types/express": "^4.17.13",
+    "@types/node": "^16.10.3",
+    "@types/node-fetch": "2",
+    "typescript": "^4.4.4"
+  }
+}
