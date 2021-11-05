@@ -15,6 +15,8 @@ export default class Session {
         this.id = id;
         this.socket = socket;
         this.setEvents();
+
+        console.log(`[${this.id}] Client connected`);
     }
 
     private setEvents() {
@@ -26,14 +28,18 @@ export default class Session {
 
     private async handleAuthenticationRequest(PHPSESSID: string, serverID: number) {
         const allowedServers = await getServersInDashboard(PHPSESSID);
-        if (allowedServers.some(c => c.id == serverID)) {
-            this.authenticated = true;
+        const server = allowedServers.find((server) => server.id === serverID);
+        if (!server) {
+            this.socket.emit('Unauthorized');
+            return;
         }
-
+        
+        this.authenticated = true;
         this.server = serverID;
         this.socket.emit("authenticated");
 
         this.username = await getUsername(PHPSESSID);
+        console.log(`[${this.id}] Client authorized working server ${server.name} (${server.id}) with username ${this.username}`)
     }
 
     private async handleFileCreateEvent(name: string, content: string, path: string) {

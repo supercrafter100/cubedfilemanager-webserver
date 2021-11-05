@@ -18,7 +18,8 @@ let activeSessions: Session[] = [];
 io.on('connection', (socket) => {
     activeSessions.push(new Session(socket.id, socket));
 
-    socket.on('disconnect', () => {
+    socket.on('disconnect', (id) => {
+        console.log(`[${id}] Client disconnected`);
         activeSessions = activeSessions.filter(s => s.id !== socket.id)
     })
 });
