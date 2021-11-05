@@ -2,6 +2,7 @@ import { Socket } from "socket.io";
 import fetch from 'node-fetch';
 import cheerio from 'cheerio';
 import { getSocketsWithServerId } from '../index';
+import Logger from "./Logger";
 
 export default class Session {
 
@@ -16,7 +17,7 @@ export default class Session {
         this.socket = socket;
         this.setEvents();
 
-        console.log(`[${this.id}] Client connected`);
+        Logger.socket_success(this.id, `Client connected`);
     }
 
     private setEvents() {
@@ -30,6 +31,7 @@ export default class Session {
         const allowedServers = await getServersInDashboard(PHPSESSID);
         const server = allowedServers.find((server) => server.id === serverID);
         if (!server) {
+            Logger.socket_warning(this.id, `Client failed to authenticate! PHPSESSID: ${PHPSESSID}, ServerID: ${serverID}`);
             this.socket.emit('Unauthorized');
             return;
         }
@@ -39,7 +41,7 @@ export default class Session {
         this.socket.emit("authenticated");
 
         this.username = await getUsername(PHPSESSID);
-        console.log(`[${this.id}] Client authorized working server ${server.name} (${server.id}) with username ${this.username}`)
+        Logger.socket_warning(this.id, `Client authorized working server ${server.name} (${server.id}) with username ${this.username}`)
     }
 
     private async handleFileCreateEvent(name: string, content: string, path: string) {
